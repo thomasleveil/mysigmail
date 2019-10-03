@@ -142,6 +142,10 @@ export default {
     },
     async uploadToS3 () {
       const bucket = new S3({
+        endpoint: process.env.VUE_APP_AWS_S3_URL,
+        sslEnabled: false,
+        s3BucketEndpoint: false,
+        s3ForcePathStyle: true,
         accessKeyId: process.env.VUE_APP_AWS_S3_ID,
         secretAccessKey: process.env.VUE_APP_AWS_S3_KEY,
         region: process.env.VUE_APP_AWS_S3_REGION
@@ -162,7 +166,7 @@ export default {
           Body: croppedImage.blob
         }, (err, data) => {
           if (err) return reject(err)
-          const res = process.env.VUE_APP_AWS_S3_URL + '/' + key
+          const res = `${process.env.VUE_APP_AWS_S3_URL}/${process.env.VUE_APP_AWS_S3_BASKET}/${key}`
           return resolve(res)
         })
       })
